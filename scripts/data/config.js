@@ -219,7 +219,7 @@ export default
                 "minecraft:sponge"
             ]
         },
-        "filterUnicodeChat": false,
+        "filterUnicodeChat": false, // TODO: add field .enabled
         "badpackets2": {
             "enabled": true,
             "minLength": 1,
