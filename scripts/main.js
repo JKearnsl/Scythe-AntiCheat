@@ -53,7 +53,7 @@ World.events.beforeChat.subscribe(msg => {
         World.say(`<${player.nameTag}> ${msg.message.replace(/[^\x00-\xFF]/g, "").replace(/"/g, "").replace(/\\/g, "")}`);
         msg.cancel = true;
     }
-});
+}); // done
 
 Minecraft.system.runSchedule(() => {
     if(config.modules.itemSpawnRateLimit.enabled) data.entitiesSpawnedInLastTick = 0;
