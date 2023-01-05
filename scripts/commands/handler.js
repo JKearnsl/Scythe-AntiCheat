@@ -51,7 +51,7 @@ export function commandHandler(player, message) {
 
     if(config.debug === true) console.warn(`${new Date().toISOString()} | did run command handler`);
 
-    // checks if the message starts with our prefix, if not exit
+    // event_handlers if the message starts with our prefix, if not exit
     if(!message.message.startsWith(prefix)) return;
 
     const args = message.message.slice(prefix.length).split(/ +/);
