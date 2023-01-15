@@ -1,7 +1,7 @@
 import config from "../data/config";
 import {flag} from "../util";
 
-export function badPackets_2(msg) {
+export function badPackets_2(msg, debug) {
     let player = msg.sender;
     let message = msg.message.toLowerCase().trim();
 
@@ -21,17 +21,23 @@ export function badPackets_2(msg) {
     return false;
 }
 
-export function badPackets_3(entityHit) {
+export function badPackets_3(entityHit, debug) {
     const entity = entityHit.hitEntity;
     const player = entityHit.entity;
 
+    // if (debug) {
+    //     console.warn("badPackets_3", entity, player);
+    // }
+
     if(player.typeId !== "minecraft:player") return false;
 
-    // badpackets[3] = check if a player attacks themselves
-    // some (bad) hacks use this to bypass anti-movement cheat event_handlers
-    if(entity.id === player.id) {
-        flag(player, "BadPackets", "3", "Exploit");
-        return true;
+    if (typeof entity === "object") {
+        // badpackets[3] = check if a player attacks themselves
+        // some (bad) hacks use this to bypass anti-movement
+        if (entity.id === player.id) {
+            flag(player, "BadPackets", "3", "Exploit");
+            return true;
+        }
     }
     return false;
 }

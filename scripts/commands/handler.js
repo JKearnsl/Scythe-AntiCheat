@@ -44,7 +44,8 @@ const prefix = config.customcommands.prefix;
  * @param {object} player - The player that has sent the message
  * @param {object} message - Message data
  */
-export function commandHandler(player, message) {
+export function commandHandler(message, debug) {
+    const player = message.sender;
     // validate that required params are defined
     if (typeof player !== "object") throw TypeError(`player is type of ${typeof player}. Expected "object"`);
     if (typeof message !== "object") throw TypeError(`message is type of ${typeof message}. Expected "object"`);

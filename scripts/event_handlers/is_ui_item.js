@@ -1,7 +1,7 @@
 import config from "../data/config";
 import {mainGui} from "../features/ui";
 
-export function is_ui_item(beforeItemUse) {
+export function is_ui_item(beforeItemUse, debug) {
     const item = beforeItemUse.item;
     const player = beforeItemUse.source;
 

@@ -1,5 +1,5 @@
 
-export function is_freeze(beforeItemUse) {
+export function is_freeze(beforeItemUse, debug) {
     const player = beforeItemUse.source;
 
     // patch bypasses for the freeze system

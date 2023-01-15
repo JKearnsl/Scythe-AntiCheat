@@ -1,6 +1,6 @@
 import config from "../data/config";
 
-export function namespoof_a(event_obj) {
+export function namespoof_a(event_obj, debug) {
     const player = event_obj.player;
 
     // Namespoof/A = username length check.
@@ -28,7 +28,7 @@ export function namespoof_a(event_obj) {
     return false;
 }
 
-export function namespoof_b(event_obj) {
+export function namespoof_b(event_obj, debug) {
     const player = event_obj.player;
 
     // Namespoof/B = regex check
@@ -39,7 +39,7 @@ export function namespoof_b(event_obj) {
     return false;
 }
 
-export function namespoof_c(event_obj) {
+export function namespoof_c(event_obj, debug) {
     const player = event_obj.player;
     let foundName;
 

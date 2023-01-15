@@ -1,11 +1,12 @@
-import * as Minecraft from "@minecraft/server";
+import {world, system} from "@minecraft/server";
+import * as Minecraft from "@minecraft/server"; // temp
 import { flag, banMessage, getClosestPlayer, getScore } from "./util.js";
 import { commandHandler } from "./commands/handler.js";
 import config from "./data/config.js";
 import { banList } from "./data/globalban.js";
 import data from "./data/data.js";
 import { mainGui, playerSettingsMenuSelected } from "./features/ui.js";
-import EventRouter from "./event_handlers/router";
+import EventRouter from "./event_handlers/router.js";
 import {
     filterSymbols,
     filterUnicode,
@@ -15,37 +16,38 @@ import {
     spammer_b,
     spammer_c,
     spammer_d
-} from "./event_handlers/chat";
-import {badPackets_2, badPackets_3} from "./event_handlers/badPackets";
+} from "./event_handlers/chat.js";
+import {badPackets_2, badPackets_3} from "./event_handlers/badPackets.js";
 import {
     illegalitemsB,
     illegalitemsE,
     illegalitemsH,
     illegalitemsI,
-    illegalitemsJ, illegalitemsK
-} from "./event_handlers/illegalitems";
+    illegalitemsJ, illegalitemsK, illegalitemsL
+} from "./event_handlers/illegalitems.js";
 import {
     commandBlockExploitF,
     commandBlockExploitG,
     commandBlockExploitH
-} from "./event_handlers/commandBlockExploit";
-import {nuker_a} from "./event_handlers/nuker";
-import {autotool_a, autotool_a_init} from "./event_handlers/autotool";
-import {instabreak_a} from "./event_handlers/instabreak";
-import {player_init} from "./event_handlers/player_init";
-import {namespoof_a, namespoof_b, namespoof_c} from "./event_handlers/namespoof";
-import {is_global_banned} from "./event_handlers/isglobalbanned";
-import {itemSpawnRateLimit} from "./event_handlers/itemSpawnRateLimit";
-import {antiArmorStandCluster} from "./event_handlers/antiArmorStandCluster";
-import {killaura_c, killaura_d} from "./event_handlers/killaura";
-import {reach_a} from "./event_handlers/reach";
-import {playerWasHitWithUI} from "./event_handlers/playerWasHitWithUI";
-import {autoclicker_a} from "./event_handlers/autoclicker";
-import Enum from "./utils/enum";
-import {fastuse_a} from "./event_handlers/fastuse";
-import {is_freeze} from "./event_handlers/isfreeze";
-import {is_ui_item} from "./event_handlers/is_ui_item";
-import {badenchants_a, badenchants_b, badenchants_c, badenchants_e} from "./event_handlers/badenchants";
+} from "./event_handlers/commandBlockExploit.js";
+import {nuker_a} from "./event_handlers/nuker.js";
+import {autotool_a, autotool_a_init} from "./event_handlers/autotool.js";
+import {instabreak_a} from "./event_handlers/instabreak.js";
+import {player_init} from "./event_handlers/player_init.js";
+import {namespoof_a, namespoof_b, namespoof_c} from "./event_handlers/namespoof.js";
+import {is_global_banned} from "./event_handlers/isglobalbanned.js";
+import {itemSpawnRateLimit} from "./event_handlers/itemSpawnRateLimit.js";
+import {antiArmorStandCluster} from "./event_handlers/antiArmorStandCluster.js";
+import {killaura_c, killaura_d} from "./event_handlers/killaura.js";
+import {reach_a} from "./event_handlers/reach.js";
+import {playerWasHitWithUI} from "./event_handlers/playerWasHitWithUI.js";
+import {autoclicker_a} from "./event_handlers/autoclicker.js";
+import Enum from "./utils/enum.js";
+import {fastuse_a} from "./event_handlers/fastuse.js";
+import {is_freeze} from "./event_handlers/isfreeze.js";
+import {is_ui_item} from "./event_handlers/is_ui_item.js";
+import {badenchants_a, badenchants_b, badenchants_c, badenchants_e} from "./event_handlers/badenchants.js";
+
 
 
 if(config.debug)
@@ -132,7 +134,7 @@ if (config.modules.illegalitemsE.enabled) {
     router.registerHandler("beforeItemUseOn", illegalitemsE);
 }
 
-router.registerHandler("beforeItemUseOn", (beforeItemUseOn) => {
+router.registerHandler("beforeItemUseOn", (beforeItemUseOn, debug) => {
     const player = beforeItemUseOn.source;
     if(player.hasTag("freeze")) beforeItemUseOn.cancel = true;
 }, true);
@@ -155,26 +157,26 @@ if (config.modules.namespoofB.enabled) {
     router.registerHandler("playerJoin", namespoof_b);
 }
 
-// entitySpawn
+// entityCreate
 
 if (config.modules.itemSpawnRateLimit.enabled) {
-    router.registerHandler("entitySpawn", itemSpawnRateLimit,);
+    router.registerHandler("entityCreate", itemSpawnRateLimit);
 }
 
 if (config.modules.commandblockexploitG.enabled) {
-    router.registerHandler("entitySpawn", commandBlockExploitG);
+    router.registerHandler("entityCreate", commandBlockExploitG);
 }
 
 if (config.modules.illegalitemsB.enabled) {
-    router.registerHandler("entitySpawn", illegalitemsB);
+    router.registerHandler("entityCreate", illegalitemsB);
 }
 
 if (config.modules.illegalitemsK.enabled) {
-    router.registerHandler("entitySpawn", illegalitemsK);
+    router.registerHandler("entityCreate", illegalitemsK);
 }
 
 if (config.misc_modules.antiArmorStandCluster.enabled) {
-    router.registerHandler("entitySpawn", antiArmorStandCluster);
+    router.registerHandler("entityCreate", antiArmorStandCluster);
 }
 
 // entityHit
@@ -245,7 +247,7 @@ if (config.modules.illegalitemsL.enabled) {
 
 // beforeWatchdogTerminate
 
-router.registerHandler("beforeWatchdogTerminate", (beforeWatchdogTerminate) => {
+system.events.beforeWatchdogTerminate.subscribe((beforeWatchdogTerminate) => {
     // We try to stop any watchdog crashes incase malicous users try to make the scripts lag
     // and causing the server to crash
     beforeWatchdogTerminate.cancel = true;
@@ -255,12 +257,12 @@ router.registerHandler("beforeWatchdogTerminate", (beforeWatchdogTerminate) => {
         A Watchdog Exception has been detected and has been cancelled successfully. 
         Reason: ${beforeWatchdogTerminate.terminateReason}`
     );
-}, true);
+});
 
 
 // when using /reload, the variables defined in playerJoin dont persist
-if([...World.getPlayers()].length >= 1) {
-    for(const player of World.getPlayers()) {
+if([...world.getPlayers()].length >= 1) {
+    for(const player of world.getPlayers()) {
         if(config.modules.badpackets5.enabled) player.badpackets5Ticks = 0;
         if(config.modules.nukerA.enabled) player.blocksBroken = 0;
         if(config.modules.autoclickerA.enabled) player.firstAttack = Date.now();
@@ -271,11 +273,11 @@ if([...World.getPlayers()].length >= 1) {
     }
 }
 
-Minecraft.system.runSchedule(() => {
+system.runSchedule(() => {
     if(config.modules.itemSpawnRateLimit.enabled) data.entitiesSpawnedInLastTick = 0;
 
     // run as each player
-    for (const player of World.getPlayers()) {
+    for (const player of world.getPlayers()) {
         try {
 
             if(player.isGlobalBanned === true) {
@@ -381,7 +383,7 @@ Minecraft.system.runSchedule(() => {
                         }
 
                         if(config.itemLists.items_semi_illegal.includes(item.typeId) || flagPlayer === true) {
-                            const checkGmc = World.getPlayers({
+                            const checkGmc = world.getPlayers({
                                 excludeGameModes: [Minecraft.GameMode.creative],
                                 name: player.name
                             });

@@ -2,7 +2,7 @@ import config from "../data/config";
 import {flag} from "../util";
 import * as Minecraft from "@minecraft/server";
 
-export function autotool_a_init(entityHit) {
+export function autotool_a_init(entityHit, debug) {
     const block = entityHit.hitBlock;
     const player = entityHit.entity;
 
@@ -16,7 +16,7 @@ export function autotool_a_init(entityHit) {
     }
 }
 
-export function autotool_a(blockBreak) {
+export function autotool_a(blockBreak, debug) {
     const player = blockBreak.player;
     const dimension = blockBreak.dimension;
     const block = blockBreak.block;

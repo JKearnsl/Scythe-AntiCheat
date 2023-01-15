@@ -3,7 +3,7 @@ import {flag, getClosestPlayer, getScore} from "../util";
 import * as Minecraft from "@minecraft/server";
 
 
-export function illegalitemsB(event_obj) {
+export function illegalitemsB(entity, debug) {
     if(entity.typeId === "minecraft:item") {
         const item = entity.getComponent("item").itemStack;
 
@@ -24,7 +24,7 @@ export function illegalitemsB(event_obj) {
     return false;
 }
 
-export function illegalitemsH(event_obj){
+export function illegalitemsH(event_obj, debug){
     const block = event_obj.block;
     const player = event_obj.player;
 
@@ -57,7 +57,7 @@ export function illegalitemsH(event_obj){
     return false;
 }
 
-export function illegalitemsI(event_obj) {
+export function illegalitemsI(event_obj, debug) {
     const block = event_obj.block;
     const player = event_obj.player;
 
@@ -97,7 +97,7 @@ export function illegalitemsI(event_obj) {
     return false;
 }
 
-export function illegalitemsJ(event_obj) {
+export function illegalitemsJ(event_obj, debug) {
     const block = event_obj.block;
     const player = event_obj.player;
     let is_illegal = false;
@@ -127,7 +127,7 @@ export function illegalitemsJ(event_obj) {
     return is_illegal;
 }
 
-export function illegalitemsK(entityCreate) {
+export function illegalitemsK(entityCreate, debug) {
     const entity = entityCreate.entity;
     // IllegalItems/K = check if a player places a chest boat with items already inside it
     if(config.modules.illegalitemsK.entities.includes(entity.typeId) && !entity.hasTag("didCheck")) {
@@ -164,7 +164,7 @@ export function illegalitemsK(entityCreate) {
     return false;
 }
 
-export function illegalitemsE(beforeItemUseOn) {
+export function illegalitemsE(beforeItemUseOn, debug) {
     /*
         illegalitems/e = cancels the placement of illegal items
         illegalitems/a could be bypassed by using a right click autoclicker/autobuild or lag
@@ -213,7 +213,7 @@ export function illegalitemsE(beforeItemUseOn) {
     return false;
 }
 
-export function illegalitemsL(entityHurt) {
+export function illegalitemsL(entityHurt, debug) {
     const player = entityHurt.hurtEntity;
 
     if(player.typeId !== "minecraft:player") return false;

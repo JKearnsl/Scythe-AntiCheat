@@ -13,6 +13,7 @@ import {world} from "@minecraft/server";
 
 class TemplateEvent {
     _is_active = false;
+    _exec_link = null;
 
     constructor(signature, is_debug = false) {
         this._signature = signature;
@@ -28,7 +29,19 @@ class TemplateEvent {
         }
         if (!this._is_active){
             this._is_active = true;
-            world.events[this._signature].subscribe(this.execute);
+            console.warn(`[EventRouter] Subscribed to '${this.signature}'`);
+            console.warn(`[EventRouter] ${typeof world.events[this.signature]} -> ${typeof TemplateEvent.execute}`);
+            this._exec_link = (
+                event_obj,
+                data,
+                options = {
+                    signature: this.signature,
+                    dynamic_handlers: this._dynamic_handlers,
+                    final_handlers: this._final_handlers,
+                    is_debug: this._is_debug
+                }
+            ) => TemplateEvent.execute(event_obj, options);
+            world.events[this.signature].subscribe(this._exec_link);
         }
     }
     unsubscribe(handler) {
@@ -57,27 +70,43 @@ class TemplateEvent {
 
         if (this._dynamic_handlers.size + this._final_handlers.size === 0) {
             this._is_active = false;
-            world.events[this._signature].unsubscribe(this.execute);
+            world.events[this._signature].unsubscribe(this._exec_link);
         }
     }
 
-    execute(event_obj) {
-        for (let obj of this._dynamic_handlers) {
-            // todo: filter
-            if (obj.handler(event_obj, this._is_debug)) return false;
-        }
-        for (let obj of this._final_handlers) {
-            obj.handler(event_obj, this._is_debug);
+    static execute(event_obj, options) {
+        try {
+            for (let obj of options.dynamic_handlers) {
+                // todo: filter
+                try {
+                    if (obj.handler(event_obj, options.is_debug)) return false;
+                } catch (some_error) {
+                    console.error(
+                        `[EventRouter] Error in handler '${obj.handler.name}' of '${options.signature}': ${some_error}`
+                    );
+                }
+            }
+            for (let obj of options.final_handlers) {
+                try {
+                    obj.handler(event_obj, options.is_debug);
+                } catch (some_error) {
+                    console.error(
+                        `[EventRouter] Error in handler '${obj.handler.name}' of '${options.signature}': ${some_error}`
+                    );
+                }
+            }
+        } catch (some_error) {
+            console.error(`[EventRouter] '${options.signature}' executed with error: ${some_error}`);
         }
     }
 
     clear() {
-        this._dynamic_handlers.clear();
-        this._final_handlers.clear();
         if (this._is_active) {
             this._is_active = false;
-            world.events[this._signature].unsubscribe(this.execute);
+            world.events[this._signature].unsubscribe(this._exec_link);
         }
+        this._dynamic_handlers.clear();
+        this._final_handlers.clear();
     }
 
     get isActive() {

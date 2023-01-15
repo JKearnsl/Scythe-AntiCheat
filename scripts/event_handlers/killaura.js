@@ -1,7 +1,7 @@
 import config from "../data/config";
 import {flag} from "../util";
 
-export function killaura_c(entityHit) {
+export function killaura_c(entityHit, debug) {
     const entity = entityHit.hitEntity;
     const player = entityHit.entity;
 
@@ -27,7 +27,7 @@ export function killaura_c(entityHit) {
     return false;
 }
 
-export function killaura_d(entityHit) {
+export function killaura_d(entityHit, debug) {
     const player = entityHit.entity;
 
     if(player.typeId !== "minecraft:player") return false;

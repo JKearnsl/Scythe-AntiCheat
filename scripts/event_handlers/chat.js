@@ -3,7 +3,7 @@ import {flag} from "../util";
 import * as Minecraft from "@minecraft/server";
 import {World} from "@minecraft/server";
 
-export function is_muted(msg) {
+export function is_muted(msg, debug) {
     let message = msg.message.toLowerCase().trim();
     let player = msg.sender;
 
@@ -17,7 +17,7 @@ export function is_muted(msg) {
     return false;
 }
 
-export function spammer_a(msg) {
+export function spammer_a(msg, debug) {
     let player = msg.sender;
 
     // Spammer/A = event_handlers if someone sends a message while moving and on ground
@@ -38,7 +38,7 @@ export function spammer_a(msg) {
     return false;
 }
 
-export function spammer_b(msg) {
+export function spammer_b(msg, debug) {
     let player = msg.sender;
 
     // Spammer/B = event_handlers if someone sends a message while swinging their hand
@@ -59,7 +59,7 @@ export function spammer_b(msg) {
     return false;
 }
 
-export function spammer_c(msg) {
+export function spammer_c(msg, debug) {
     let player = msg.sender;
 
     // Spammer/C = event_handlers if someone sends a message while using an item
@@ -80,7 +80,7 @@ export function spammer_c(msg) {
     return false;
 }
 
-export function spammer_d(msg) {
+export function spammer_d(msg, debug) {
     let player = msg.sender;
 
     // Spammer/D = event_handlers if someone sends a message while having a GUI open
@@ -101,11 +101,11 @@ export function spammer_d(msg) {
     return false;
 }
 
-export function filterUnicode(msg) {
+export function filterUnicode(msg, debug) {
     msg.message = msg.message.replace(/[^\x00-\xFF]/g, "");
 }
 
-export function filterSymbols(msg){
+export function filterSymbols(msg, debug){
     msg.message = msg.message.replace(/"/g, "").replace(/\\/g, "") // TODO: learn about the need
 }
 
@@ -131,7 +131,7 @@ export function filterSymbols(msg){
 //     }
 // }
 
-export function sayMessage(msg) {
+export function sayMessage(msg, debug) {
     const player = msg.sender;
     World.say(`<${player.nameTag}> ${msg.message}`);
     msg.cancel = true;

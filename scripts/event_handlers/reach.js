@@ -2,7 +2,7 @@ import config from "../data/config";
 import {flag} from "../util";
 import * as Minecraft from "@minecraft/server";
 
-export function reach_a(entityHit) {
+export function reach_a(entityHit, debug) {
     const entity = entityHit.hitEntity;
     const player = entityHit.entity;
 

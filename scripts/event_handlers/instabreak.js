@@ -2,7 +2,7 @@ import config from "../data/config";
 import * as Minecraft from "@minecraft/server";
 import {flag} from "../util";
 
-export function instabreak_a(blockBreak) {
+export function instabreak_a(blockBreak, debug) {
     /*
         InstaBreak/A = event_handlers if a player in survival breaks an unbreakable block
         While the InstaBreak method used in Horion and Zephyr are patched, there are still some bypasses

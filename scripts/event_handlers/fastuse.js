@@ -1,7 +1,7 @@
 import config from "../data/config";
 import {flag} from "../util";
 
-export function fastuse_a(beforeItemUse) {
+export function fastuse_a(beforeItemUse, debug) {
     const player = beforeItemUse.source;
 
     const lastThrowTime = Date.now() - player.lastThrow;

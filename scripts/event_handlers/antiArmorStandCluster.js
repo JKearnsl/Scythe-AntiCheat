@@ -1,7 +1,7 @@
 import * as Minecraft from "@minecraft/server";
 import config from "../data/config";
 
-export function antiArmorStandCluster(entityCreate) {
+export function antiArmorStandCluster(entityCreate, debug) {
     const entity = entityCreate.entity;
 
     if(entity.typeId === "minecraft:armor_stand") {

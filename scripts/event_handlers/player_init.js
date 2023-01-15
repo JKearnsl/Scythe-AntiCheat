@@ -1,7 +1,7 @@
 import config from "../data/config";
 import data from "../data/data";
 
-export function player_init(playerJoin) {
+export function player_init(playerJoin, debug) {
     const player = playerJoin.player;
 
     // declare all needed variables in player

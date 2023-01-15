@@ -2,7 +2,7 @@ import config from "../data/config";
 import data from "../data/data";
 import {getScore} from "../util";
 
-export function autoclicker_a() {
+export function autoclicker_a(entityHit, debug) {
     const player = entityHit.entity;
 
     if(player.typeId !== "minecraft:player") return false;

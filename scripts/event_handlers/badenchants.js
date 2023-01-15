@@ -2,7 +2,7 @@ import * as Minecraft from "@minecraft/server";
 import config from "../data/config";
 import {flag} from "../util";
 
-export function badenchants_a(beforeItemUse) {
+export function badenchants_a(beforeItemUse, debug) {
     const item = beforeItemUse.item;
     const player = beforeItemUse.source;
     const itemEnchants = item.getComponent("enchantments").enchantments;
@@ -56,7 +56,7 @@ export function badenchants_a(beforeItemUse) {
 }
 
 
-export function badenchants_b(beforeItemUse) {
+export function badenchants_b(beforeItemUse, debug) {
     const item = beforeItemUse.item;
     const player = beforeItemUse.source;
     const itemEnchants = item.getComponent("enchantments").enchantments;
@@ -91,7 +91,7 @@ export function badenchants_b(beforeItemUse) {
     return false;
 }
 
-export function badenchants_c(beforeItemUse) {
+export function badenchants_c(beforeItemUse, debug) {
     const item = beforeItemUse.item;
     const player = beforeItemUse.source;
     const itemEnchants = item.getComponent("enchantments").enchantments;
@@ -139,7 +139,7 @@ export function badenchants_c(beforeItemUse) {
     return false;
 }
 
-export function badenchants_e(beforeItemUse) {
+export function badenchants_e(beforeItemUse, debug) {
     const item = beforeItemUse.item;
     const player = beforeItemUse.source;
     const itemEnchants = item.getComponent("enchantments").enchantments;
